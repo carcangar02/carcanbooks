@@ -1,0 +1,53 @@
+<html>
+<head>
+    <title>CarcanBooks - Librerías</title>
+</head>
+<body>
+    <div>
+        <form>
+            <select name="libreria"  id="selector_librerias">
+                {% for libreria in librerias %}
+                    <option value="{{ libreria.pk }}"  {% if libreria.pk|stringformat:"s" == libreria_seleccionada %}selected{% endif %}>
+                        {{ libreria.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div id="div_libros">
+        {% for libro in info_libros %}
+            <div>
+                <p>{{ libro.titulo }}</p>
+                <img src="{{ libro.foto }}" alt="{{ libro.titulo }}" width="100">
+            </div>
+        {% empty %}
+            <p>No hay libros para esta librería.</p>
+        {% endfor %}        
+    </div>
+
+</body>
+<script>
+document.getElementById("selector_librerias").addEventListener("change", function() {
+    let libreriaId = this.value;
+
+    fetch(`libreria/?libreria_id=${libreriaId}`)
+      .then(response => response.json())
+      .then(data => {
+          let container = document.getElementById("div_libros");
+          container.innerHTML = "";
+
+          data.forEach(function(libro) {
+              let div = document.createElement("div");
+              div.innerHTML = `
+                <p>${ libro.titulo }</p>
+                <img src="${ libro.foto }" alt="${ libro.titulo }" width="100">
+              `;
+              container.appendChild(div);
+          });
+      });
+});
+</script>
+
+</html>
+
