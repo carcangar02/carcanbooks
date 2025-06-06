@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>{{ libro.titulo }}</title>
+    </head>
+    <body>
+        <div>
+            <div class="libro-details">
+                <h1>{{ libro.titulo }}</h1>
+                <img src="{{ libro.foto }}" alt="{{ libro.titulo }}" width="200" loading="lazy">
+            </div>
+            <div>
+                <ul id="lista_capitulos">
+
+                </ul>
+            </div>
+        </div>
+    </body>
+</html>
+<script>
+const capitulos = JSON.parse('{{ capitulos|escapejs }}');
+capitulos.forEach((capitulo) => {
+    const li = document.createElement('li');
+    if (capitulo.visto==true) {
+        li.classList.add('visto');
+    } else {
+        li.classList.add('no_visto');
+    }
+    li.innerHTML = `<a href="/libros/lector/${capitulo.id}/">${capitulo.titulo}</a>`;
+    document.getElementById('lista_capitulos').appendChild(li);
+});
+
+</script>

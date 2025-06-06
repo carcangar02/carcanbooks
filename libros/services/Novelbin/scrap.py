@@ -4,9 +4,18 @@ from bs4 import BeautifulSoup
 
 
 def scrap_capitulo(enlace):
-    pass
+    scraper = cloudscraper.create_scraper()
+    response = scraper.get(enlace)
 
-
+    # Comprobar que la petición fue exitosa
+    if response.status_code == 200:
+        # Parsear el HTML con BeautifulSoup
+        main = BeautifulSoup(response.text, 'html.parser')
+        contenido = main.find('div', class_='chr-c')
+        for div in contenido.find_all('div'):
+            div.decompose()
+        
+        return str(contenido)
 
 
 

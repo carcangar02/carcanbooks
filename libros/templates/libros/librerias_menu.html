@@ -17,20 +17,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script>
 // Precarga desde Django del JSON de libros
 const libros = JSON.parse('{{ info_libros|escapejs }}');
@@ -49,7 +35,9 @@ function renderLibros(filtroLibreria = null) {
         const div = document.createElement("div");
         div.innerHTML = `
             <p>${libro.titulo}</p>
-            <img src="${libro.foto}" alt="${libro.titulo}" width="100" loading="lazy">
+            <a href="/libros/libro/${libro.id}/">
+            <img src="${libro.foto}"  alt="${libro.titulo}" width="100" loading="lazy">
+            </a>
         `;
         container.appendChild(div);
     });
